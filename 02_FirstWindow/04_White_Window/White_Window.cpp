@@ -9,11 +9,15 @@ LRESULT CALLBACK WndProc( HWND, UINT, WPARAM, LPARAM);
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
 
+	// Variable Declaration
 	MSG msg;
 	HWND hwnd;
 	TCHAR szAppName[] = TEXT("MyWindow");
 	WNDCLASSEX wndcls;
 
+	// Code
+
+	// Initialize WNDCLASSEX struct members
 	wndcls.cbSize = sizeof(WNDCLASSEX);
 	wndcls.style = CS_HREDRAW | CS_VREDRAW;
 	wndcls.cbClsExtra = 0;
@@ -21,14 +25,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdL
 	wndcls.lpfnWndProc = WndProc;
 	wndcls.lpszClassName = szAppName;
 	wndcls.lpszMenuName = NULL;
-	wndcls.hbrBackground = (HBRUSH) GetStockObject( BLACK_BRUSH );
+	wndcls.hbrBackground = (HBRUSH) GetStockObject( WHITE_BRUSH );	// WHITE_BRUSH -> #define 	WHITE_BRUSH   4 
 	wndcls.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wndcls.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndcls.hInstance = hInstance;
 	wndcls.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
+	// Register WNDCLASS
 	RegisterClassEx( &wndcls );
 
+	// Creating the window on RAM
 	hwnd = CreateWindow( szAppName,
 		TEXT("Mayur's Window"),
 		WS_OVERLAPPEDWINDOW,
@@ -41,21 +47,29 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdL
 		hInstance,
 		NULL);
 
+	// Show The Window on Display
 	ShowWindow(hwnd, iCmdShow);
+
+	// Set The Background Of The Window
 	UpdateWindow(hwnd);
 
+	// Message Loop
 	while( GetMessage(&msg, NULL, 0, 0) )
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
+	// Return wParam of MSG.
 	return((int)msg.wParam);
 }
 
+
+// Defining The Callback Function. 
 LRESULT CALLBACK WndProc( HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 
+	// Handelling The Window Callback Messages
 	switch (iMsg)
 	{
 		case WM_DESTROY:
@@ -66,6 +80,8 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			break;
 	}
 
+	// Calling The OS Handling Function
 	return (DefWindowProc(hwnd, iMsg, wParam, lParam));
 }
+
 
